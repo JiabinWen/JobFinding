@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Upload Resume</title>
+<h1>Upload Resume</h1>
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="resume">
+  <button type="submit">Upload</button>
+</form>
+<p>Current resume: {{ config.resume_path }}</p>
+
