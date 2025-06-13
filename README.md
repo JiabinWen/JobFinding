@@ -15,7 +15,7 @@ This repository contains a small Python package with the following modules:
 
 ## Running the demo
 
-Install Python 3.10+ and run:
+Install Python 3.10+ and run the command line demo:
 
 ```bash
 python -m jobfinding.main
@@ -28,3 +28,12 @@ The workflow will attempt to scrape the four platforms above and store the
 results in `data/jobs.json`. If the network requests fail (for example, due to
 restricted connectivity) the scrapers fall back to returning small mock job
 lists so the rest of the demo can still run.
+
+You can also start a small web front-end based on Flask:
+
+```bash
+python -m jobfinding.frontend
+```
+
+The front-end lets you upload a resume, adjust preferences and run the
+workflow from a simple dashboard.

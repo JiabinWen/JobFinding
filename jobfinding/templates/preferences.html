@@ -1,0 +1,19 @@
+<!doctype html>
+<title>Preferences</title>
+<h1>Job Preferences</h1>
+<form method="post">
+  <label>Job Titles (comma separated)
+    <input name="job_titles" value="{{ ','.join(config.preferences.job_titles) }}">
+  </label><br>
+  <label>Locations (comma separated)
+    <input name="locations" value="{{ ','.join(config.preferences.locations) }}">
+  </label><br>
+  <label>Salary Range
+    <input name="salary_range" value="{{ config.preferences.salary_range or '' }}">
+  </label><br>
+  <label>
+    <input type="checkbox" name="auto_apply" {% if config.preferences.auto_apply %}checked{% endif %}> Auto apply
+  </label><br>
+  <button type="submit">Save</button>
+</form>
+

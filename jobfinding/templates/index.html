@@ -1,0 +1,13 @@
+<!doctype html>
+<title>JobFinding Dashboard</title>
+<h1>JobFinding Demo</h1>
+<ul>
+  <li><a href="{{ url_for('preferences') }}">Set Preferences</a></li>
+  <li><a href="{{ url_for('upload') }}">Upload Resume</a></li>
+  <li><a href="{{ url_for('notifications') }}">Account & Notifications</a></li>
+  <li><a href="{{ url_for('dashboard') }}">View Job Dashboard</a></li>
+</ul>
+<form action="{{ url_for('run_workflow') }}" method="post">
+  <button type="submit">Run Workflow</button>
+</form>
+
