@@ -1,0 +1,13 @@
+<!doctype html>
+<title>Accounts and Notifications</title>
+<h1>Accounts and Notifications</h1>
+<form method="post">
+  <label>LinkedIn URL
+    <input name="linkedin_url" value="{{ config.linkedin_url or '' }}">
+  </label><br>
+  <label>GitHub URL
+    <input name="github_url" value="{{ config.github_url or '' }}">
+  </label><br>
+  <button type="submit">Save</button>
+</form>
+

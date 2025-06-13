@@ -1,0 +1,5 @@
+data/jobs.json
+data/config.json
+data/resume.*
+__pycache__/
+web/node_modules/

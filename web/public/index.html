@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JobFinding Web UI</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>JobFinding Dashboard</h1>
+      <section>
+        <h2>Resume Upload</h2>
+        <form @submit.prevent="uploadResume">
+          <input type="file" ref="resume" />
+          <button type="submit">Upload</button>
+        </form>
+      </section>
+      <section>
+        <h2>Job Preferences</h2>
+        <form @submit.prevent="savePreferences">
+          <label>Job Titles <input v-model="config.preferences.job_titles[0]" /></label>
+          <label>Location <input v-model="config.preferences.locations[0]" /></label>
+          <label>Salary <input v-model="config.preferences.salary_range" /></label>
+          <label><input type="checkbox" v-model="config.preferences.auto_apply" /> Auto apply</label>
+          <button type="submit">Save</button>
+        </form>
+      </section>
+      <section>
+        <h2>Accounts</h2>
+        <form @submit.prevent="saveAccount">
+          <label>LinkedIn <input v-model="config.linkedin_url" /></label>
+          <label>GitHub <input v-model="config.github_url" /></label>
+          <button type="submit">Save</button>
+        </form>
+      </section>
+      <section>
+        <h2>Run Workflow</h2>
+        <button @click="runWorkflow">Run</button>
+      </section>
+      <section>
+        <h2>Job Dashboard</h2>
+        <button @click="loadJobs">Refresh</button>
+        <table border="1">
+          <tr><th>Title</th><th>Location</th><th>Source</th></tr>
+          <tr v-for="job in jobs" :key="job.id">
+            <td>{{ job.title }}</td>
+            <td>{{ job.location }}</td>
+            <td>{{ job.source }}</td>
+          </tr>
+          <tr v-if="!jobs.length"><td colspan="3">No jobs</td></tr>
+        </table>
+      </section>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      createApp({
+        data() {
+          return { config: { preferences: { job_titles: ['Python Developer'], locations: ['Remote'], salary_range: '', auto_apply: false }, linkedin_url: '', github_url: '' }, jobs: [] };
+        },
+        mounted() { this.loadConfig(); },
+        methods: {
+          loadConfig() {
+            fetch('/api/config').then(r => r.json()).then(j => this.config = j);
+          },
+          savePreferences() {
+            fetch('/api/preferences', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.config.preferences) }).then(() => alert('Saved'));
+          },
+          saveAccount() {
+            fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ linkedin_url: this.config.linkedin_url, github_url: this.config.github_url }) }).then(() => alert('Saved'));
+          },
+          uploadResume() {
+            const file = this.$refs.resume.files[0];
+            const form = new FormData();
+            form.append('resume', file);
+            fetch('/api/resume', { method: 'POST', body: form }).then(() => alert('Uploaded'));
+          },
+          runWorkflow() {
+            fetch('/api/run', { method: 'POST' }).then(r => r.json()).then(j => alert(j.status));
+          },
+          loadJobs() {
+            fetch('/api/jobs').then(r => r.json()).then(j => { this.jobs = j; });
+          }
+        }
+      }).mount('#app');
+    </script>
+  </body>
+</html>
