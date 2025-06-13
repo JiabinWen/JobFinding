@@ -1,4 +1,3 @@
-# JobFinding
 
 A simplified prototype demonstrating an automated job application workflow.
 
